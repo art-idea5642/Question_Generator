@@ -6,10 +6,7 @@ import com.art.questions_generator.exceptions.QuestionNotFoundException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Service
@@ -56,19 +53,38 @@ public class JavaQuestionService implements QuestionService {
     }
 
     @Override
-    public void removeQuestion(Question question)
+    public void removeQuestion(Question question) {
+        if (StringUtils.isBlank(question.getQuestion()) || StringUtils.isBlank(question.getAnswer())) {
+            throw new IllegalArgumentException("Вопрос и ответ не могут быть пустыми.");
+        }
 
-            throws QuestionNotFoundException, IllegalArgumentException {
+        String formattedQuestion = StringUtils.capitalize(question.getQuestion());
+        String formattedAnswer = StringUtils.capitalize(question.getAnswer());
 
+
+        Question formattedQuestionAndAnswer = new Question(formattedQuestion, formattedAnswer);
+
+        if (!questions.contains(formattedQuestionAndAnswer)) {
+            throw new QuestionNotFoundException("Такой вопрос не найден.");
+        }
+        questions.remove(formattedQuestionAndAnswer);
     }
 
     @Override
     public Collection<Question> getAll() {
-        return List.of();
+        return Set.copyOf(questions);
     }
 
     @Override
     public Question getRandomQuestion() {
-        return null;
+
+        Random random = new Random();
+        int randomIndex = random.nextInt(questions.size());
+        return questions.stream()
+                .skip(randomIndex)
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Не удалось получить случайный вопрос."));
     }
+
+
 }
