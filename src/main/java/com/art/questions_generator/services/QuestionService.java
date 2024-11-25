@@ -21,4 +21,6 @@ public interface QuestionService {
 
     Question getRandomQuestion();
 
+    int getSize ();
+
 }

@@ -13,6 +13,12 @@ import java.util.*;
 public class JavaQuestionService implements QuestionService {
     private final Set<Question> questions = new HashSet<>();
 
+    private Random random = new Random();
+
+    public void setRandom (Random random) {
+        this.random = random;
+    }
+
     @Override
     public void addQuestion(Question question) {
 
@@ -78,12 +84,16 @@ public class JavaQuestionService implements QuestionService {
     @Override
     public Question getRandomQuestion() {
 
-        Random random = new Random();
-        int randomIndex = random.nextInt(questions.size());
-        return questions.stream()
-                .skip(randomIndex)
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Не удалось получить случайный вопрос."));
+        List<Question> questionList = new ArrayList<>(questions);
+
+        int randomIndex = random.nextInt(questionList.size());
+
+        return questionList.get(randomIndex);
+    }
+
+    @Override
+    public int getSize() {
+        return questions.size();
     }
 
 

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collection;
 
 @RestController
-@RequestMapping("/exam")
+@RequestMapping("/exam/questions")
 public class ExamController {
 
     private final ExaminerService examinerService;
@@ -23,9 +23,8 @@ public class ExamController {
         this.examinerService = examinerService;
     }
 
-    @GetMapping("/questions/{amount}")
+    @GetMapping("/{amount}")
     public Collection<Question> qetQuestions(@RequestParam int amount) {
         return examinerService.getQuestions(amount);
     }
-
 }

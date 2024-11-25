@@ -38,7 +38,6 @@ public class JavaQuestionController {
             return "Ошибка: Некоректные данные";
         }
     }
-    @GetMapping("/add")
     public String addQuestion(@RequestParam String question, @RequestParam String answer) {
 
         try {

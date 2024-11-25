@@ -8,7 +8,6 @@ import java.util.Collection;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.IntStream;
 
 @Service
 public class ExaminerServiceImpl implements ExaminerService {
@@ -22,7 +21,7 @@ public class ExaminerServiceImpl implements ExaminerService {
     @Override
     public Collection<Question> getQuestions(int amount) {
 
-        if (questionService.getAll().size() < amount) {
+        if (questionService.getSize() < amount) {
             throw new LessQuestionsException
                     ("Количество запрашиваемых вопросов превышает количество существующих.");
         }
